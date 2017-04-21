@@ -6,18 +6,33 @@ $.getJSON("/articles", function(data) {
         var title = data[i].title
         var link = data[i].link
         var body = data[i].body
+        var saveBtn = $("<button>").attr("class", "btn btn-primary saveBtn").attr("data-id", id).attr("action", "save").text("Save Article");
         var story = $("<div>").attr("class", "well");
         var title = $("<h2>").attr("data-id", id).attr("class", "title").text(title);
         var body = $("<p>").text(body);
-        var link = $("<a>").attr("href", link).attr("class", "contLink").text("Continue Reading...");
+        var link = $("<a>").attr("href", link).attr("class", "contLink").text("Click Here");
+        body.append(link)
         story.append(title);
         story.append(body);
-        story.append(link);
+        story.append(saveBtn);
         // Display the apropos information on the page
         $("#articles").append(story);
     }
 });
 
+$(document).on("click", ".saveBtn", function() {
+    // Save the id from the p tag
+    var thisId = $(this).attr("data-id");
+    // Now make an ajax call for the Article
+    $.ajax({
+            method: "GET",
+            url: "/save/" + thisId.toString()
+        })
+        .done(function(data) {
+            console.log("Save Clicked")
+        });
+    //need to change page to view the saved articles
+});
 
 // Whenever someone clicks a p tag
 $(document).on("click", ".title", function() {

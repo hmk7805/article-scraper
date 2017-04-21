@@ -44,6 +44,22 @@ $.getJSON("/savedArticles", function(data) {
     }
 });
 
+$(document).on("click", ".deleteBtn", function() {
+    // Save the id from the p tag
+    var thisId = $(this).attr("data-id");
+    // Now make an ajax call for the Article
+    $.ajax({
+            method: "GET",
+            url: "/delete/" + thisId.toString()
+        })
+        .done(function(data) {
+            console.log("Deleted");
+        });
+    location.reload();
+
+    //need to change page to view the saved articles
+});
+
 $(document).on("click", ".saveBtn", function() {
     // Save the id from the p tag
     var thisId = $(this).attr("data-id");
@@ -57,7 +73,6 @@ $(document).on("click", ".saveBtn", function() {
         });
     //need to change page to view the saved articles
 });
-
 // Whenever someone clicks a p tag
 $(document).on("click", ".noteBtn", function() {
     event.preventDefault();

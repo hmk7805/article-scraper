@@ -120,7 +120,20 @@ app.get("/save/:id", function(req, res) {
             }
         });
 });
-
+//This will delete the saved article by ObjectId
+app.get("/delete/:id", function(req, res) {
+    // Grab every doc in the Articles array
+    Saved.findByIdAndRemove({ _id: req.params.id }, function(error, doc) {
+        // Log any errors
+        if (error) {
+            console.log(error);
+        }
+        // Or send the doc to the browser as a json object
+        else {
+            console.log(req.params.id + " Deleted");
+        }
+    });
+});
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
     // Grab every doc in the Articles array

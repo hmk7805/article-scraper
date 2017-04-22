@@ -1,19 +1,23 @@
 // Require mongoose
 var mongoose = require("mongoose");
+var uniqueValidator = require('mongoose-unique-validator');
 // Create a schema class
 var Schema = mongoose.Schema;
 
 // Create the Note schema
 var NoteSchema = new Schema({
     // Just a string
-    note: {
-        type: Array
+    body: {
+        type: String,
+        required: true
+    },
+    createdDate: {
+        type: Date,
+        default: Date.now
     }
 });
 
-// Remember, Mongoose will automatically save the ObjectIds of the notes
-// These ids are referred to in the Article model
-
+NoteSchema.plugin(uniqueValidator);
 // Create the Note model with the NoteSchema
 var Note = mongoose.model("Note", NoteSchema);
 

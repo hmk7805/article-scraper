@@ -186,23 +186,23 @@ app.get("/savedArticles/:id", function(req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     Saved.findOne({ "_id": req.params.id })
         // ..and populate all of the notes associated with it
-        .populate("note")
+        .populate("notes")
         // now, execute our query
-        .exec(function(error, doc) {
+        .exec(function(error, doc1) {
             // Log any errors
             if (error) {
                 console.log(error);
             }
             // Otherwise, send the doc to the browser as a json object
             else {
-                res.json(doc);
+                res.json(doc1);
             }
         });
 });
 
 
 // Create a new note or replace an existing note
-app.post("/articles/:id", function(req, res) {
+app.post("/saveNote/:id", function(req, res) {
     // Create a new note and pass the req.body to the entry
     var newNote = new Note(req.body);
 
@@ -215,7 +215,7 @@ app.post("/articles/:id", function(req, res) {
         // Otherwise
         else {
             // Use the article id to find and update it's note
-            Article.findOneAndUpdate({ "_id": req.params.id }, { "note": doc._id })
+            Article.findOneAndUpdate({ "_id": req.params.id }, { $push: { "notes": doc._id } })
                 // Execute the above query
                 .exec(function(err, doc) {
                     // Log any errors
@@ -223,7 +223,7 @@ app.post("/articles/:id", function(req, res) {
                         console.log(err);
                     } else {
                         // Or send the document to the browser
-                        res.send(doc);
+                        res.redirect("/savedArticles");
                     }
                 });
         }

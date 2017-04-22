@@ -91,21 +91,21 @@ $(document).on("click", ".noteBtn", function() {
         .done(function(data) {
             console.log(data);
 
+
             // The title of the article
             $("#notes").append("<h2>" + data.title + "</h2>");
             // A textarea to add a new note body
             $("#notes").append("<textarea id='bodyinput' name='body'>Type your note here.</textarea>");
             // A button to submit a new note, with the id of the article saved to it
             $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
-
-            // If there's a note in the article
-            if (data.note) {
-                var body = $("<div>").attr("class", "well note");
-                var content = $("<p>").text(data.note.note)
-                body.append(content)
-                    // Place the body of the note in the body textarea
-                $("#currentNotes").append(body);
-            }
+            // // If there's a note in the article
+            // if (data.notes) {
+            //     var body = $("<div>").attr("class", "well note");
+            //     var content = $("<p>").text(data.note.note)
+            //     body.append(content)
+            //         // Place the body of the note in the body textarea
+            //     $("#currentNotes").append(body);
+            // }
         });
     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
     return false;
@@ -119,10 +119,10 @@ $(document).on("click", "#savenote", function() {
     // Run a POST request to change the note, using what's entered in the inputs
     $.ajax({
             method: "POST",
-            url: "/savedArticles/" + thisId,
+            url: "/saveNote/" + thisId,
             data: {
                 // Value taken from note textarea
-                note: $("#bodyinput").val()
+                body: $("#bodyinput").val()
             }
         })
         // With that done

@@ -99,13 +99,17 @@ $(document).on("click", ".noteBtn", function() {
             // A button to submit a new note, with the id of the article saved to it
             $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
             // // If there's a note in the article
-            // if (data.notes) {
-            //     var body = $("<div>").attr("class", "well note");
-            //     var content = $("<p>").text(data.note.note)
-            //     body.append(content)
-            //         // Place the body of the note in the body textarea
-            //     $("#currentNotes").append(body);
-            // }
+            var notes = data.notes;
+            console.log(notes)
+            if (data.notes) {
+                for (var i = 0; i < notes.length; i++) {
+                    var body = $("<div>").attr("class", "well note");
+                    var content = $("<p>").text(notes[i].body)
+                    body.append(content)
+                        // Place the body of the note in the body textarea
+                    $("#currentNotes").append(body);
+                };
+            }
         });
     $("html, body").animate({ scrollTop: $(document).height() }, "slow");
     return false;

@@ -7,8 +7,6 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
-// Requiring our Note and Article models
-var Note = require("./models/Note.js");
 var Article = require("./models/Article.js");
 var Saved = require("./models/Saved.js");
 // Our scraping tools
@@ -185,17 +183,15 @@ app.get("/articles/:id", function(req, res) {
 app.get("/savedArticles/:id", function(req, res) {
     // Using the id passed in the id parameter, prepare a query that finds the matching one in our db...
     Saved.findOne({ "_id": req.params.id })
-        // ..and populate all of the notes associated with it
-        .populate("notes")
         // now, execute our query
-        .exec(function(error, doc1) {
+        .exec(function(error, doc) {
             // Log any errors
             if (error) {
                 console.log(error);
             }
             // Otherwise, send the doc to the browser as a json object
             else {
-                res.json(doc1);
+                res.json(doc);
             }
         });
 });
@@ -206,8 +202,7 @@ app.post("/saveNote/:id", function(req, res) {
     // Use the article id to find and update it's note
     Saved.findOneAndUpdate({ "_id": req.params.id }, { $push: { "notes": req.body } }).then(function() {
         console.log("Note Added");
-        // res.redirect("/savedArticles");
-
+        res.redirect("/savedArticles");
     });
 });
 

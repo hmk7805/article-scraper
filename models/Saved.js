@@ -26,11 +26,10 @@ var SavedSchema = new Schema({
         default: Date.now
     },
     // This only saves one note's ObjectId, ref refers to the Note model
-    notes: [{
-        type: Schema.Types.ObjectId,
-        ref: "Note",
+    notes: {
+        type: Object,
         required: false
-    }]
+    }
 });
 
 SavedSchema.plugin(uniqueValidator);

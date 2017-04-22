@@ -203,30 +203,11 @@ app.get("/savedArticles/:id", function(req, res) {
 
 // Create a new note or replace an existing note
 app.post("/saveNote/:id", function(req, res) {
-    // Create a new note and pass the req.body to the entry
-    var newNote = new Note(req.body);
+    // Use the article id to find and update it's note
+    Saved.findOneAndUpdate({ "_id": req.params.id }, { $push: { "notes": req.body } }).then(function() {
+        console.log("Note Added");
+        // res.redirect("/savedArticles");
 
-    // And save the new note the db
-    newNote.save(function(error, doc) {
-        // Log any errors
-        if (error) {
-            console.log(error);
-        }
-        // Otherwise
-        else {
-            // Use the article id to find and update it's note
-            Article.findOneAndUpdate({ "_id": req.params.id }, { $push: { "notes": doc._id } })
-                // Execute the above query
-                .exec(function(err, doc) {
-                    // Log any errors
-                    if (err) {
-                        console.log(err);
-                    } else {
-                        // Or send the document to the browser
-                        res.redirect("/savedArticles");
-                    }
-                });
-        }
     });
 });
 

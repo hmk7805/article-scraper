@@ -27,7 +27,7 @@ $.getJSON("/savedArticles", function(data) {
         var title = data[i].title
         var link = data[i].link
         var body = data[i].body
-        var noteBtn = $("<button>").attr("class", "btn btn-primary noteBtn").attr("data-id", id).text("Add a Note");
+        var noteBtn = $("<button>").attr("class", "btn btn-primary noteBtn").attr("data-id", id).text("Notes");
         var deleteBtn = $("<button>").attr("class", "btn btn-primary deleteBtn").attr("action", "delete").attr("data-id", id).text("Delete Article");
         var story = $("<div>").attr("class", "well");
         var title = $("<h2>").attr("data-id", id).attr("class", "title").text(title);

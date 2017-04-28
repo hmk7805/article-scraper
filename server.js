@@ -132,6 +132,14 @@ app.get("/delete/:id", function(req, res) {
         }
     });
 });
+//This will delete a note from the saved article by ObjectId
+app.get("/deletenote/:id/:position", function(req, res) {
+    console.log("line 137");
+    var notes = Saved.findOne({ _id: req.params.id }).notes;
+    notes.pop(req.params.position);
+    // Grab every doc in the Articles array
+    Saved.findByIdAndUpdate({ _id: req.params.id }, { $set: { notes: notes } });
+});
 // This will get the articles we scraped from the mongoDB
 app.get("/articles", function(req, res) {
     // Grab every doc in the Articles array

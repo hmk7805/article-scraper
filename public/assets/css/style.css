@@ -2,6 +2,10 @@ body {
     background-color: #F2F6D0
 }
 
+.btn {
+    margin: 10px
+}
+
 #wrapper {
     width: 960px;
     margin-left: auto;
